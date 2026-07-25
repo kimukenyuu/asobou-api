@@ -1,4 +1,4 @@
-package io.github.kimukenyuu.asobou.shared.api;
+package io.github.kimukenyuu.asobou.shared.presentation;
 
 import io.github.kimukenyuu.asobou.user.domain.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;

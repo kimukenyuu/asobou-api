@@ -1,4 +1,4 @@
-package io.github.kimukenyuu.asobou.user.persistence;
+package io.github.kimukenyuu.asobou.user.infrastructure.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

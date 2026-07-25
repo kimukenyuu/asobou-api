@@ -1,4 +1,4 @@
-package io.github.kimukenyuu.asobou.user.api;
+package io.github.kimukenyuu.asobou.user.presentation;
 
 import io.github.kimukenyuu.asobou.user.application.CreateUserService;
 import io.github.kimukenyuu.asobou.user.domain.User;

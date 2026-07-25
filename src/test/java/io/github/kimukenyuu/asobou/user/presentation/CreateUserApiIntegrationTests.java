@@ -1,4 +1,4 @@
-package io.github.kimukenyuu.asobou.user.api;
+package io.github.kimukenyuu.asobou.user.presentation;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

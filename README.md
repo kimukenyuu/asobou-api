@@ -38,37 +38,42 @@ responsibility second. The target package layout is:
 ```text
 io.github.kimukenyuu.asobou
 ├── user/                 # Identity and profiles
-│   ├── api/
+│   ├── presentation/
 │   ├── application/
 │   ├── domain/
-│   ├── persistence/
-│   └── integration/
+│   └── infrastructure/
+│       ├── persistence/
+│       └── integration/
 ├── group/                # Groups, memberships, and roles
-│   ├── api/
+│   ├── presentation/
 │   ├── application/
 │   ├── domain/
-│   ├── persistence/
-│   └── integration/
+│   └── infrastructure/
+│       ├── persistence/
+│       └── integration/
 ├── asobi/                # Activities, schedules, tags, and participation
-│   ├── api/
+│   ├── presentation/
 │   ├── application/
 │   ├── domain/
-│   ├── persistence/
-│   └── integration/
+│   └── infrastructure/
+│       ├── persistence/
+│       └── integration/
 ├── media/                # Photos and activity records
-│   ├── api/
+│   ├── presentation/
 │   ├── application/
 │   ├── domain/
-│   ├── persistence/
-│   └── integration/
+│   └── infrastructure/
+│       ├── persistence/
+│       └── integration/
 ├── notification/         # Activity and participation notifications
-│   ├── api/
+│   ├── presentation/
 │   ├── application/
 │   ├── domain/
-│   ├── persistence/
-│   └── integration/
+│   └── infrastructure/
+│       ├── persistence/
+│       └── integration/
 └── shared/               # Cross-cutting code with no feature owner
-    ├── api/
+    ├── presentation/
     └── config/
 ```
 
@@ -79,17 +84,16 @@ The arrows below show source-code dependencies, not runtime request flow:
 
 ```mermaid
 flowchart LR
-    API["API"] --> APPLICATION["Application"]
+    PRESENTATION["Presentation"] --> APPLICATION["Application"]
     APPLICATION --> DOMAIN["Domain"]
-    PERSISTENCE["Persistence"] --> DOMAIN
-    INTEGRATION["Integration"] --> DOMAIN
+    INFRASTRUCTURE["Infrastructure"] --> DOMAIN
 ```
 
-- `api` owns HTTP contracts, validation, controllers, and responses.
+- `presentation` owns HTTP contracts, validation, controllers, and responses.
 - `application` coordinates use cases and transaction boundaries.
 - `domain` contains business concepts, state, rules, and repository contracts.
-- `persistence` implements domain repository contracts with JPA.
-- `integration` is added per feature when an external system is introduced.
+- `infrastructure.persistence` implements repository contracts with JPA.
+- `infrastructure.integration` implements external system adapters.
 - `shared` contains only cross-cutting code with no clear feature owner.
 
 Domain models remain independent of Spring MVC, JPA, MySQL, and external SDKs.
@@ -103,7 +107,7 @@ of the codebase:
 - value objects represent concepts that require domain-specific validation;
 - application services coordinate use cases without owning domain rules;
 - repository interfaces belong to the domain, while JPA adapters belong to
-  persistence;
+  `infrastructure.persistence`;
 - domain models and JPA entities are separated so database concerns do not
   shape the business model;
 - package boundaries follow business capabilities rather than global
@@ -112,11 +116,12 @@ of the codebase:
 DDD is applied pragmatically. New abstractions and package layers are
 introduced only when the domain or an external dependency requires them.
 
-### Infrastructure
+### Deployment Infrastructure
 
 Cloud infrastructure will be maintained separately in the `asobou-infra`
-repository. Feature-level `integration` packages contain adapters for external
-systems; they do not contain AWS CDK deployment definitions.
+repository. Feature-level `infrastructure.integration` packages contain
+adapters for external systems; they do not contain AWS CDK deployment
+definitions.
 
 ```text
 asobou-api/               # Application and domain code
