@@ -20,18 +20,15 @@ The codebase starts as a feature-oriented modular monolith. It applies
 Domain-Driven Design principles where they make business rules explicit,
 without introducing distributed-system complexity prematurely.
 
-## Tech Stack
+## Built With
 
-- Java 21
-- Spring Boot 4.1
-- Spring MVC
-- Spring Data JPA
-- MySQL 8.4
-- Flyway
-- Gradle
-- JUnit and Testcontainers
-- Springdoc OpenAPI
-- Docker Compose
+| Area | Technologies |
+| --- | --- |
+| Runtime | Java 21, Spring Boot 4.1 |
+| API | Spring MVC, Springdoc OpenAPI |
+| Data | Spring Data JPA, MySQL 8.4, Flyway |
+| Testing | JUnit, Testcontainers |
+| Build and local development | Gradle, Docker Compose |
 
 ## Architecture
 
