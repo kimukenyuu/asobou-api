@@ -116,18 +116,6 @@ of the codebase:
 DDD is applied pragmatically. New abstractions and package layers are
 introduced only when the domain or an external dependency requires them.
 
-### Deployment Infrastructure
-
-Cloud infrastructure will be maintained separately in the `asobou-infra`
-repository. Feature-level `infrastructure.integration` packages contain
-adapters for external systems; they do not contain AWS CDK deployment
-definitions.
-
-```text
-asobou-api/               # Application and domain code
-asobou-infra/             # AWS CDK and deployment infrastructure
-```
-
 ## Getting Started
 
 ### Prerequisites
