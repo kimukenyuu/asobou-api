@@ -1,5 +1,6 @@
 package io.github.kimukenyuu.asobou.user.domain;
 
+import java.text.Normalizer;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -24,7 +25,10 @@ public class User {
     ) {
         this.id = id;
         this.email = requireText(email, "email");
-        this.username = requireText(username, "username");
+        this.username = Normalizer.normalize(
+                requireText(username, "username"),
+                Normalizer.Form.NFC
+        );
         this.displayName = requireText(displayName, "displayName");
         this.profileImageUrl = profileImageUrl;
         this.authProvider = Objects.requireNonNull(

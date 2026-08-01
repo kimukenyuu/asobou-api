@@ -7,6 +7,7 @@ import io.github.kimukenyuu.asobou.user.domain.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.Normalizer;
 import java.time.Clock;
 
 @Service
@@ -29,17 +30,22 @@ public class CreateUserService {
             String username,
             String displayName
     ) {
+        String normalizedUsername = Normalizer.normalize(
+                username,
+                Normalizer.Form.NFC
+        );
+
         if (userRepository.existsByEmail(email)) {
             throw new UserAlreadyExistsException("email");
         }
 
-        if (userRepository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(normalizedUsername)) {
             throw new UserAlreadyExistsException("username");
         }
 
         User user = User.create(
                 email,
-                username,
+                normalizedUsername,
                 displayName,
                 AuthProvider.LOCAL,
                 clock.instant()

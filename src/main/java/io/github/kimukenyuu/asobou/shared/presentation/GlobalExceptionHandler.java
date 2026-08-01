@@ -1,6 +1,7 @@
 package io.github.kimukenyuu.asobou.shared.presentation;
 
 import io.github.kimukenyuu.asobou.user.domain.UserAlreadyExistsException;
+import io.github.kimukenyuu.asobou.user.domain.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -13,6 +14,20 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    ProblemDetail handleUserNotFound(
+            UserNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return problem(
+                HttpStatus.NOT_FOUND,
+                "User not found",
+                exception.getMessage(),
+                "USER_NOT_FOUND",
+                request
+        );
+    }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     ProblemDetail handleUserAlreadyExists(
@@ -61,6 +76,20 @@ public class GlobalExceptionHandler {
                         .toList()
         );
 
+        return problem;
+    }
+
+    private ProblemDetail problem(
+            HttpStatus status,
+            String title,
+            String detail,
+            String code,
+            HttpServletRequest request
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, detail);
+        problem.setTitle(title);
+        problem.setInstance(URI.create(request.getRequestURI()));
+        problem.setProperty("code", code);
         return problem;
     }
 }

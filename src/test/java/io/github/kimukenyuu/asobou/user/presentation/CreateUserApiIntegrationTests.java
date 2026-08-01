@@ -84,4 +84,35 @@ class CreateUserApiIntegrationTests {
 			.andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
 			.andExpect(jsonPath("$.errors.length()").value(3));
 	}
+
+	@Test
+	void acceptsJapaneseKoreanAndEnglishCharactersInUsername() throws Exception {
+		mockMvc.perform(post("/api/users")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("""
+					{
+					  "email": "multilingual@example.com",
+					  "username": "遊ぼうPlay같이",
+					  "displayName": "Multilingual User"
+					}
+					"""))
+			.andExpect(status().isCreated())
+			.andExpect(jsonPath("$.username").value("遊ぼうPlay같이"));
+	}
+
+	@Test
+	void rejectsAllAsReservedUsername() throws Exception {
+		mockMvc.perform(post("/api/users")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("""
+					{
+					  "email": "all@example.com",
+					  "username": "ALL",
+					  "displayName": "All"
+					}
+					"""))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+			.andExpect(jsonPath("$.errors[0].field").value("username"));
+	}
 }
